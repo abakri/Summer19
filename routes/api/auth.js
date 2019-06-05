@@ -8,7 +8,7 @@ router.post("/login", function(req, res, next) {
       return next(err);
     }
     if (!user) {
-      return res.json({ msg: "User doesn't exist" });
+      return res.json({ msg: info.msg });
     }
     req.logIn(user, function(err) {
       if (err) {

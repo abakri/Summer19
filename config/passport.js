@@ -12,9 +12,11 @@ passport.use(
       passwordField: "password"
     },
     (email, password, done) => {
+      if (!email || !password)
+        return done(null, false, { msg: "Missing fields" });
       User.findOne({ email }, (err, user) => {
         if (err) return done(err);
-        if (!user) return done(null, false, { message: "Incorrect username" });
+        if (!user) return done(null, false, { msg: "User doesn't exist" });
 
         bcrypt.compare(password, user.password, (err, success) => {
           if (err) return done(err);
