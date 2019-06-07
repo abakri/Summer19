@@ -2,10 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const passport = require("passport");
-const bcrypt = require("bcryptjs");
 const session = require("express-session");
-const cors = require("cors");
-const LocalStrategy = require("passport-local").Strategy;
 
 // get env vars
 require("dotenv").config();
@@ -13,18 +10,16 @@ require("dotenv").config();
 // api imports
 const users = require("./routes/api/users");
 const auth = require("./routes/api/auth");
+const scripts = require("./routes/api/scripts");
 
 // init express
 const app = express();
 
 // passport config
-require("./config/passport");
+require("./config/passport")(passport);
 
 // middleware
-app.use(cors());
-app.use(
-  session({ secret: "keyboard cat", resave: true, saveUninitialized: true })
-);
+app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
@@ -41,6 +36,7 @@ mongoose
 // API endpoints
 app.use("/api/users", users);
 app.use("/auth", auth);
+app.use("/api/scripts", scripts);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {

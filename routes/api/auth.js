@@ -14,14 +14,14 @@ router.post("/login", function(req, res, next) {
       if (err) {
         return next(err);
       }
-      return res.json({ msg: "Login successfull" });
+      return res.json({ msg: "Login successful" });
     });
   })(req, res, next);
 });
 
 router.post("/logout", (req, res) => {
   req.logout();
-  res.json({ msg: "Logout successfull" });
+  res.json({ msg: "Logout successful" });
 });
 
 module.exports = router;
