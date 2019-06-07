@@ -13,6 +13,7 @@ require("dotenv").config();
 // api imports
 const users = require("./routes/api/users");
 const auth = require("./routes/api/auth");
+const scripts = require("./routes/api/scripts");
 
 // init express
 const app = express();
@@ -41,6 +42,7 @@ mongoose
 // API endpoints
 app.use("/api/users", users);
 app.use("/auth", auth);
+app.use("/api/scripts", scripts);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
