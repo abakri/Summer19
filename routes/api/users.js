@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const { requireAuthentication } = require("../../config/auth");
 
 // User Model
 const User = require("../../models/User");
 
 // @route GET api/users
 // @desc Get all users
-// @access public (----change to private later----)
-router.get("/", (req, res) => {
+// @access requires login
+router.get("/", requireAuthentication, (req, res) => {
   User.find()
     .sort({ date: -1 })
     .then(users => res.json(users));
