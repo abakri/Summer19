@@ -43,7 +43,6 @@ export default function(state = initialState, action) {
     case REGISTER_FAIL:
       return {
         ...state,
-        token: null,
         user: null,
         isAuthenticated: false,
         isLoading: false

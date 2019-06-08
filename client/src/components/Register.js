@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { login } from "../actions/authActions";
+import { connect } from "react-redux";
+import { register } from "../actions/authActions";
 import { clearErrors } from "../actions/errorActions";
 
-class Login extends Component {
+class Register extends Component {
   state = {
+    first: "",
+    last: "",
     email: "",
     password: "",
     response: ""
@@ -13,9 +15,8 @@ class Login extends Component {
 
   static propTypes = {
     isAuthenticated: PropTypes.bool,
-    // error: PropTypes.object.isRequired,
-    login: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
+    error: PropTypes.object.isRequired,
+    register: PropTypes.func.isRequired
   };
 
   onChange = e => {
@@ -24,7 +25,9 @@ class Login extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    this.props.login({
+    this.props.register({
+      first: this.state.first,
+      last: this.state.last,
       email: this.state.email,
       password: this.state.password
     });
@@ -35,6 +38,14 @@ class Login extends Component {
       <div>
         <form onSubmit={this.onSubmit}>
           <label>
+            first name
+            <input type="text" name="first" onChange={this.onChange} />
+          </label>
+          <label>
+            last name
+            <input type="text" name="last" onChange={this.onChange} />
+          </label>
+          <label>
             email
             <input type="email" name="email" onChange={this.onChange} />
           </label>
@@ -43,19 +54,19 @@ class Login extends Component {
             <input type="password" name="password" onChange={this.onChange} />
           </label>
           <input type="submit" value="Submit" />
-          {this.state.response ? <p>{this.state.response}</p> : ""}
         </form>
+        {this.state.response ? <p>{this.state.response}</p> : ""}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  isAuthorized: state.isAuthenticated,
   error: state.error
 });
 
 export default connect(
   mapStateToProps,
-  { login, clearErrors }
-)(Login);
+  { register, clearErrors }
+)(Register);

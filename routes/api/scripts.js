@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+// import models
 const Script = require("../../models/Script");
 
 // @route POST api/scripts/submit
