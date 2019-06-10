@@ -16,6 +16,7 @@ export const loadUser = () => dispatch => {
     if (!res.ok) {
       dispatch(returnErrors("Sign in to view resource", res.status));
       dispatch({ type: AUTH_ERROR });
+      Promise.resolve();
     } else {
       res.json().then(data => dispatch({ type: USER_LOADED, payload: data }));
     }
@@ -46,17 +47,17 @@ export const login = ({ email, password }) => dispatch => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password })
   }).then(res => {
-    if (!res.ok) dispatch({ type: LOGIN_FAIL });
-    else
-      res
-        .json()
-        .then(data =>
-          dispatch({ type: LOGIN_SUCCESS, payload: { user: data } })
-        );
+    if (!res.ok) {
+      dispatch({ type: LOGIN_FAIL });
+    } else
+      res.json().then(data =>
+        // CLEAR THE ROUTING STATE
+        dispatch({ type: LOGIN_SUCCESS, payload: { user: data } })
+      );
   });
 };
 
-export const logout = () => dispatch => {
+export const logout = history => dispatch => {
   fetch("/auth/logout", {
     method: "post"
   }).then(res => {
@@ -65,6 +66,9 @@ export const logout = () => dispatch => {
         dispatch(returnErrors(data.msg, res.status));
         dispatch({ type: AUTH_ERROR });
       });
-    } else dispatch({ type: LOGOUT_SUCCESS });
+    } else {
+      dispatch({ type: LOGOUT_SUCCESS });
+      history.push("/");
+    }
   });
 };
