@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { login } from "../actions/authActions";
 import { clearErrors } from "../actions/errorActions";
 import { Redirect } from "react-router-dom";
+import { Form, FormField, Button, Box, Heading } from "grommet";
 
 class Login extends Component {
   state = {
@@ -33,29 +34,49 @@ class Login extends Component {
     });
   };
 
-  loginForm = () => (
-    <div>
-      <form onSubmit={this.onSubmit}>
-        <label>
-          email
-          <input type="email" name="email" onChange={this.onChange} />
-        </label>
-        <label>
-          password
-          <input type="password" name="password" onChange={this.onChange} />
-        </label>
-        <input type="submit" value="Submit" />
-        {this.state.response ? <p>{this.state.response}</p> : ""}
-      </form>
-    </div>
-  );
-
   render() {
     const { isAuthenticated, redirectToReferrer, from } = this.props;
     if (isAuthenticated) {
       return <Redirect to={redirectToReferrer ? from : "/"} />;
     }
-    return this.loginForm();
+    return (
+      <Box
+        direction="row"
+        justify="center"
+        margin={{ top: "xlarge" }}
+        animation={["fadeIn", "zoomOut"]}
+      >
+        <Box
+          align="center"
+          pad={{ top: "small", bottom: "large", horizontal: "large" }}
+          round="xsmall"
+          border={{ color: "brand", size: "medium" }}
+        >
+          <Heading
+            level="3"
+            margin={{ bottom: "medium", top: "small", horizontal: "small" }}
+          >
+            login
+          </Heading>
+          <Form onSubmit={this.onSubmit}>
+            <FormField
+              type="email"
+              name="email"
+              label="email"
+              onChange={this.onChange}
+            />
+            <FormField
+              type="password"
+              name="password"
+              label="password"
+              onChange={this.onChange}
+            />
+            <Button type="submit" label="login" primary />
+            {this.state.response ? <p>{this.state.response}</p> : ""}
+          </Form>
+        </Box>
+      </Box>
+    );
   }
 }
 

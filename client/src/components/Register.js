@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { register } from "../actions/authActions";
 import { clearErrors } from "../actions/errorActions";
+import { Box, Form, FormField, Button, Heading } from "grommet";
 
 class Register extends Component {
   state = {
@@ -35,28 +36,59 @@ class Register extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.onSubmit}>
-          <label>
-            first name
-            <input type="text" name="first" onChange={this.onChange} />
-          </label>
-          <label>
-            last name
-            <input type="text" name="last" onChange={this.onChange} />
-          </label>
-          <label>
-            email
-            <input type="email" name="email" onChange={this.onChange} />
-          </label>
-          <label>
-            password
-            <input type="password" name="password" onChange={this.onChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        {this.state.response ? <p>{this.state.response}</p> : ""}
-      </div>
+      <Box
+        animation={["fadeIn", "zoomOut"]}
+        direction="row"
+        justify="center"
+        margin={{ top: "large" }}
+      >
+        <Box
+          align="center"
+          pad={{ top: "small", bottom: "large", horizontal: "large" }}
+          round="xsmall"
+          border={{ color: "brand", size: "medium" }}
+        >
+          <Heading
+            level="3"
+            margin={{ bottom: "medium", top: "small", horizontal: "small" }}
+          >
+            register user
+          </Heading>
+          <Form onSubmit={this.onSubmit}>
+            <FormField
+              type="text"
+              name="first"
+              label="first"
+              onChange={this.onChange}
+            />
+            <FormField
+              type="text"
+              name="last"
+              label="last"
+              onChange={this.onChange}
+            />
+            <FormField
+              type="email"
+              name="email"
+              label="email"
+              onChange={this.onChange}
+            />
+            <FormField
+              type="password"
+              name="password"
+              label="password"
+              onChange={this.onChange}
+            />
+            <Button
+              fill="horizontal"
+              margin={{ top: "medium" }}
+              type="submit"
+              label="register"
+              primary
+            />
+          </Form>
+        </Box>
+      </Box>
     );
   }
 }

@@ -6,7 +6,8 @@ import {
   LOGIN_FAIL,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  CLEAR_REDIRECT
 } from "./types";
 import { returnErrors } from "./errorActions";
 
@@ -50,10 +51,10 @@ export const login = ({ email, password }) => dispatch => {
     if (!res.ok) {
       dispatch({ type: LOGIN_FAIL });
     } else
-      res.json().then(data =>
-        // CLEAR THE ROUTING STATE
-        dispatch({ type: LOGIN_SUCCESS, payload: { user: data } })
-      );
+      res.json().then(data => {
+        dispatch({ type: CLEAR_REDIRECT });
+        dispatch({ type: LOGIN_SUCCESS, payload: { user: data } });
+      });
   });
 };
 
@@ -68,7 +69,6 @@ export const logout = history => dispatch => {
       });
     } else {
       dispatch({ type: LOGOUT_SUCCESS });
-      // on logout always go to home page
       history.push("/");
     }
   });

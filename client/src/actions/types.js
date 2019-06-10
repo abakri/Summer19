@@ -11,3 +11,5 @@ export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const REDIRECT_LOGIN = "REDIRECT_LOGIN";
 export const CLEAR_REDIRECT = "CLEAR_REDIRECT";
+export const POSTS_LOADING = "POSTS_LOADING";
+export const POSTS_LOADED = "POSTS_LOADED";
