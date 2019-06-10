@@ -1,10 +1,8 @@
 const express = require("express");
 const router = express.Router();
-
-<<<<<<< HEAD
 const { requireAuthentication } = require("../../config/auth");
-=======
 // import models
+
 const Script = require("../../models/Script");
 
 
@@ -21,7 +19,7 @@ router.post("/submit", requireAuthentication, (req, res) => {
   const newScript = new Script({
     userId: userId,
     script: script,
-    language: language
+    language: language  
   });
 
   newScript.save().then(script => {

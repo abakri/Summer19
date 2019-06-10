@@ -4,7 +4,8 @@ const Script = require("../../models/Script");
 const { requireAuthentication } = require("../../config/auth");
 const fetch = require("node-fetch");
 
-router.post("/", requireAuthentication, (req, res) => {
+//run compiler
+router.get("/run", requireAuthentication, (req, res) => {
     Script.findOne({userId: req.user._id }).then(script => {
         console.log(script.script)
         fetch("https://api.jdoodle.com/execute", {
@@ -23,5 +24,11 @@ router.post("/", requireAuthentication, (req, res) => {
 
     })
 })
+
+//read python script
+router.get("/python", requireAuthentication, (req, res) => {
+    Script.find({ language: "python", userId: req.user._id }).then(scripts =>
+        res.json(scripts))
+});
 
 module.exports = router;

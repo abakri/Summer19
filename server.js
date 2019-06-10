@@ -12,7 +12,6 @@ require("dotenv").config();
 const users = require("./routes/api/users");
 const auth = require("./routes/api/auth");
 const scripts = require("./routes/api/scripts");
-const python = require("./routes/api/python");
 const jDoodle= require ("./routes/api/jDoodle");
 
 // init express
@@ -47,7 +46,6 @@ app.use(passport.session());
 app.use("/api/users", users);
 app.use("/auth", auth);
 app.use("/api/scripts", scripts);
-app.use("/api/python", python);
 app.use("/api/jDoodle", jDoodle);
 
 // Serve static assets if in production
