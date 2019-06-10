@@ -16,6 +16,7 @@ export const loadUser = () => dispatch => {
     if (!res.ok) {
       dispatch(returnErrors("Sign in to view resource", res.status));
       dispatch({ type: AUTH_ERROR });
+      Promise.resolve();
     } else {
       res.json().then(data => dispatch({ type: USER_LOADED, payload: data }));
     }
@@ -46,13 +47,13 @@ export const login = ({ email, password }) => dispatch => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password })
   }).then(res => {
-    if (!res.ok) dispatch({ type: LOGIN_FAIL });
-    else
-      res
-        .json()
-        .then(data =>
-          dispatch({ type: LOGIN_SUCCESS, payload: { user: data } })
-        );
+    if (!res.ok) {
+      dispatch({ type: LOGIN_FAIL });
+    } else
+      res.json().then(data =>
+        // CLEAR THE ROUTING STATE
+        dispatch({ type: LOGIN_SUCCESS, payload: { user: data } })
+      );
   });
 };
 
