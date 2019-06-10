@@ -1,30 +1,35 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import { redirectLogin } from "../actions/routeActions";
 
 class PrivateRoute extends Component {
   static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool,
     redirectLogin: PropTypes.func.isRequired
   };
 
+  componentDidMount() {
+    // tell browser to go back here after login
+    if (!this.props.isAuthenticated)
+      this.props.redirectLogin(this.props.location.pathname);
+  }
+
   render() {
-    const { isLoading, isAuthenticated, children } = this.props;
-    if (isLoading) return <h1>loading...</h1>;
+    const { isAuthenticated, children } = this.props;
     if (isAuthenticated) return children;
     return <Redirect to="/login" />;
   }
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  isLoading: state.auth.isLoading
+  isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(
-  mapStateToProps,
-  { redirectLogin }
-)(PrivateRoute);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { redirectLogin }
+  )(PrivateRoute)
+);

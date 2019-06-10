@@ -1,8 +1,8 @@
-import { REDIRECT_LOGIN } from "../actions/types";
+import { REDIRECT_LOGIN, CLEAR_REDIRECT } from "../actions/types";
 
 const initialState = {
   redirectToReferrer: false,
-  referrerEndpoint: null
+  from: null
 };
 
 export default function(state = initialState, action) {
@@ -11,7 +11,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         redirectToReferrer: true,
-        referrerEndpoint: action.payload.referrerEndpoint
+        from: action.payload
+      };
+    case CLEAR_REDIRECT:
+      return {
+        ...state,
+        redirectToReferrer: false,
+        from: null
       };
     default:
       return state;

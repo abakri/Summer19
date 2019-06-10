@@ -1,8 +1,14 @@
-import { REDIRECT_LOGIN } from "./types";
+import { REDIRECT_LOGIN, CLEAR_REDIRECT } from "./types";
 
-export const redirectLogin = referrerEndpoint => dispatch => {
+export const redirectLogin = from => dispatch => {
   dispatch({
     type: REDIRECT_LOGIN,
-    payload: referrerEndpoint
+    payload: from
+  });
+};
+
+export const clearRedirect = () => dispatch => {
+  dispatch({
+    type: CLEAR_REDIRECT
   });
 };
