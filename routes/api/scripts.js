@@ -3,6 +3,8 @@ const router = express.Router();
 
 <<<<<<< HEAD
 const { requireAuthentication } = require("../../config/auth");
+=======
+// import models
 const Script = require("../../models/Script");
 
 
