@@ -30,7 +30,7 @@ class AppNavbar extends Component {
         <Link to="/">
           <Button>
             <Heading level="3" margin="none">
-              MeeCode
+              Indomie Goreng
             </Heading>
           </Button>
         </Link>
