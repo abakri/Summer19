@@ -68,6 +68,7 @@ export const logout = history => dispatch => {
       });
     } else {
       dispatch({ type: LOGOUT_SUCCESS });
+      // on logout always go to home page
       history.push("/");
     }
   });

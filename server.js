@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const passport = require("passport");
 const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 
 // get env vars
 require("dotenv").config();
@@ -18,20 +19,27 @@ const app = express();
 // passport config
 require("./config/passport")(passport);
 
-// middleware
-app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
-app.use(passport.initialize());
-app.use(passport.session());
-
 // init db
 const db = process.env.MONGO_URI;
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => "MongoDB Connected...")
   .catch(err => console.log(err));
+
+// middleware
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+  })
+);
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // API endpoints
 app.use("/api/users", users);
