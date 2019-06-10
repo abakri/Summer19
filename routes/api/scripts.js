@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+<<<<<<< HEAD
 const { requireAuthentication } = require("../../config/auth");
 const Script = require("../../models/Script");
 
