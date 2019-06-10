@@ -1,13 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
+const { requireAuthentication } = require("../../config/auth");
 const Script = require("../../models/Script");
+
 
 // @route POST api/scripts/submit
 // @desc submit a script
 // @access only for users (later)
-router.post("/submit", (req, res) => {
-  const { userId, script, language } = req.body;
+router.post("/submit", requireAuthentication, (req, res) => {
+  userId = req.user._id
+  const { script, language } = req.body;
   if (!userId || !script || !language) {
     res.status(400).json({ msg: "Missing field" });
   }
@@ -22,5 +25,6 @@ router.post("/submit", (req, res) => {
     res.json(script);
   });
 });
+
 
 module.exports = router;

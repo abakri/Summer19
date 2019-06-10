@@ -26,9 +26,11 @@
     "express": "^4.17.1",
     "express-session": "^1.16.1",
     "mongoose": "^5.5.12",
+    "node-fetch": "^2.6.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "python-shell": "^1.0.7"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
