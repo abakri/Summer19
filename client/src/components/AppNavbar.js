@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { logout } from "../actions/authActions";
 
 class AppNavbar extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     logout: PropTypes.func.isRequired
+  };
+
+  logout = () => {
+    this.props.logout(this.props.history);
   };
 
   render() {
@@ -19,7 +23,7 @@ class AppNavbar extends Component {
           </li>
           {this.props.isAuthenticated ? (
             <li>
-              <button onClick={this.props.logout}>Logout</button>
+              <button onClick={this.logout}>Logout</button>
             </li>
           ) : (
             <div>
@@ -41,7 +45,9 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(
-  mapStateToProps,
-  { logout }
-)(AppNavbar);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { logout }
+  )(AppNavbar)
+);

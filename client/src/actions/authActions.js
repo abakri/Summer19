@@ -57,7 +57,7 @@ export const login = ({ email, password }) => dispatch => {
   });
 };
 
-export const logout = () => dispatch => {
+export const logout = history => dispatch => {
   fetch("/auth/logout", {
     method: "post"
   }).then(res => {
@@ -66,6 +66,9 @@ export const logout = () => dispatch => {
         dispatch(returnErrors(data.msg, res.status));
         dispatch({ type: AUTH_ERROR });
       });
-    } else dispatch({ type: LOGOUT_SUCCESS });
+    } else {
+      dispatch({ type: LOGOUT_SUCCESS });
+      history.push("/");
+    }
   });
 };
