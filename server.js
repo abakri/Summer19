@@ -12,9 +12,14 @@ require("dotenv").config();
 const users = require("./routes/api/users");
 const auth = require("./routes/api/auth");
 const scripts = require("./routes/api/scripts");
+<<<<<<< HEAD
 const jDoodle = require("./routes/api/jDoodle");
 const posts = require("./routes/api/posts");
 const admin = require("./routes/api/admin");
+=======
+const jDoodle= require ("./routes/api/jDoodle");
+const posts = require("./routes/api/posts")
+>>>>>>> c57739905440a7c21851930829bef5f68703fe72
 
 // init express
 const app = express();
