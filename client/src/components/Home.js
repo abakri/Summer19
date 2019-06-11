@@ -26,27 +26,29 @@ class Home extends Component {
             <Loading />
           </Box>
         ) : (
-          <InfiniteScroll items={this.props.posts}>
-            {item => (
-              <Box
-                fill={true}
-                round="xsmall"
-                pad="small"
-                margin="small"
-                background="brand"
-                key={item.id}
-              >
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  to={`/posts/${item.id}`}
+          <Box animation={"fadeIn"}>
+            <InfiniteScroll items={this.props.posts}>
+              {item => (
+                <Box
+                  fill={true}
+                  round="xsmall"
+                  pad="small"
+                  margin="small"
+                  background="brand"
+                  key={item.id}
                 >
-                  <Box>
-                    <Heading level="4">{item.title}</Heading>
-                  </Box>
-                </Link>
-              </Box>
-            )}
-          </InfiniteScroll>
+                  <Link
+                    style={{ textDecoration: "none", color: "white" }}
+                    to={`/posts/${item.id}`}
+                  >
+                    <Box>
+                      <Heading level="4">{item.title}</Heading>
+                    </Box>
+                  </Link>
+                </Box>
+              )}
+            </InfiniteScroll>
+          </Box>
         )}
       </Box>
     );
