@@ -4,12 +4,10 @@ module.exports = {
       return next();
     }
     res.status(401).json({ msg: "Authorization denied" });
-  }
-};
+  },
 
-module.exports ={
   requireAdmin: (req, res, next) => {
-    if (req.users.roles == 'admin') {
+    if (req.user.roles.get("admin")) {
       return next();
     }
     res.status(401).json({ msg: "Authorization denied" });

@@ -12,8 +12,9 @@ require("dotenv").config();
 const users = require("./routes/api/users");
 const auth = require("./routes/api/auth");
 const scripts = require("./routes/api/scripts");
-const jDoodle= require ("./routes/api/jDoodle");
-const post = require("./routes/api/posts")
+const jDoodle = require("./routes/api/jDoodle");
+const posts = require("./routes/api/posts");
+const admin = require("./routes/api/admin");
 
 // init express
 const app = express();
@@ -48,7 +49,8 @@ app.use("/api/users", users);
 app.use("/auth", auth);
 app.use("/api/scripts", scripts);
 app.use("/api/jDoodle", jDoodle);
-app.use("/api/posts",posts);
+app.use("/api/posts", posts);
+app.use("/admin", admin);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {

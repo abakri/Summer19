@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const { requireAuthentication } = require("../../config/auth");
+const { requireAuthentication, requireAdmin } = require("../../config/auth");
 
 // User Model
 const User = require("../../models/User");
@@ -13,7 +13,7 @@ router.get("/", requireAuthentication, (req, res) => {
   User.find()
     .sort({ date: -1 })
     .then(users => res.json(users));
-}); 
+});
 
 // @route POST api/users
 // @desc register user

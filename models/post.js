@@ -6,13 +6,24 @@ const PostSchema = new Schema({
     type: String,
     required: true
   },
-  content: {
+  title: {
+    type: String,
+    required: true
+  },
+  author: {
+    type: String
+  },
+  body: {
     type: String,
     required: true
   },
   language: {
     type: String,
     required: true
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 

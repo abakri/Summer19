@@ -1,48 +1,55 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { loadPosts } from "../actions/postActions";
-import { Box, Heading, InfiniteScroll } from "grommet";
+import { Box, Heading, InfiniteScroll, Text } from "grommet";
 import { Link } from "react-router-dom";
 
 import Loading from "./Loading";
 
 class Home extends Component {
-  static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    posts: PropTypes.array
+  state = {
+    isLoading: true,
+    posts: null
   };
 
   componentDidMount() {
-    this.props.loadPosts();
+    this.loadPosts();
   }
+
+  loadPosts = () => {
+    fetch("/api/posts")
+      .then(res => res.json())
+      .then(data => this.setState({ isLoading: false, posts: data }));
+  };
 
   render() {
     return (
-      <Box align="center" margin={{ horizontal: "xlarge", vertical: "small" }}>
+      <Box
+        animation="fadeIn"
+        align="center"
+        margin={{ horizontal: "xlarge", vertical: "small" }}
+      >
         <Heading level="2">popular posts</Heading>
-        {this.props.isLoading ? (
+        {this.state.isLoading ? (
           <Box margin={{ top: "xlarge" }}>
             <Loading />
           </Box>
         ) : (
-          <Box animation={"fadeIn"}>
-            <InfiniteScroll items={this.props.posts}>
-              {item => (
+          <Box animation={"fadeIn"} fill={true}>
+            <InfiniteScroll items={this.state.posts}>
+              {post => (
                 <Box
-                  fill={true}
                   round="xsmall"
                   pad="small"
                   margin="small"
                   background="brand"
-                  key={item.id}
+                  key={post._id}
                 >
                   <Link
                     style={{ textDecoration: "none", color: "white" }}
-                    to={`/posts/${item.id}`}
+                    to={`/posts/${post._id}`}
                   >
                     <Box>
-                      <Heading level="4">{item.title}</Heading>
+                      <Heading level="4">{post.title}</Heading>
+                      <Text>by {post.author}</Text>
                     </Box>
                   </Link>
                 </Box>
@@ -55,12 +62,4 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  isLoading: state.posts.isLoading,
-  posts: state.posts.posts
-});
-
-export default connect(
-  mapStateToProps,
-  { loadPosts }
-)(Home);
+export default Home;

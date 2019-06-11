@@ -22,11 +22,20 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  roles:{
-    type:String,
-    default:'user',
-    required: true
+  roles: {
+    type: Map,
+    of: Boolean,
+    default: { user: true }
   }
 });
+
+UserSchema.methods.addRole = function(role) {
+  this.roles.set(role, true);
+};
+
+UserSchema.statics.userRoles = {
+  USER: "user",
+  ADMIN: "admin"
+};
 
 module.exports = User = mongoose.model("user", UserSchema);
