@@ -6,3 +6,12 @@ module.exports = {
     res.status(401).json({ msg: "Authorization denied" });
   }
 };
+
+module.exports ={
+  requireAdmin: (req, res, next) => {
+    if (req.users.roles == 'admin') {
+      return next();
+    }
+    res.status(401).json({ msg: "Authorization denied" });
+  }
+};
