@@ -13,7 +13,7 @@ const users = require("./routes/api/users");
 const auth = require("./routes/api/auth");
 const scripts = require("./routes/api/scripts");
 const jDoodle= require ("./routes/api/jDoodle");
-const post = require("./routes/api/posts")
+const posts = require("./routes/api/posts")
 
 // init express
 const app = express();

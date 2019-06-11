@@ -5,7 +5,7 @@ const { requireAuthentication, requireAdmin } = require("../../config/auth");
 
 const Post = require("../../models/Post");
 
-// @route POST api/post/submit
+// @route POST api/posts/submit
 // @desc submit a post
 // @access only for admin
 router.post("/submit", requireAuthentication, requireAdmin, (req, res) => {
