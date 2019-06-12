@@ -3,6 +3,7 @@ import { Box, Heading } from "grommet";
 
 export const Loading = props => {
   return (
+    // <div />
     <Box
       fill={true}
       direction="column"

@@ -8,14 +8,18 @@ const PostSchema = new Schema({
   },
   title: {
     type: String,
-    required: true
+    default: "Untitled"
   },
   author: {
     type: String
   },
   body: {
     type: String,
-    required: true
+    default: ""
+  },
+  published: {
+    type: Boolean,
+    default: false
   },
   date: {
     type: Date,

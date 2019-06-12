@@ -42,9 +42,15 @@ class AppNavbar extends Component {
             items={[
               {
                 icon: <Document />,
-                label: "create post",
+                label: "new post",
                 onClick: () => {
                   this.props.history.push("/newpost");
+                }
+              },
+              {
+                label: "my posts",
+                onClick: () => {
+                  this.props.history.push("/posts");
                 }
               },
               { icon: <Logout />, label: "logout", onClick: this.logout }

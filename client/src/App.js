@@ -14,7 +14,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import Loading from "./components/Loading";
 import Footer from "./components/Footer";
 import Post from "./components/Post";
-import CreatePost from "./components/CreatePost";
+import EditPost from "./components/EditPost";
+import NewPost from "./components/NewPost";
+import UserPosts from "./components/UserPosts";
 
 const AppUI = props => (
   <div>
@@ -25,8 +27,9 @@ const AppUI = props => (
       <Route exact path="/login" component={Login} />
       <Route exact path="/register" component={Register} />
       <PrivateRoute>
-        <Route exact path="/newpost" component={CreatePost} />
-        <Route exact path="/editpost/:id" component={CreatePost} />
+        <Route exact path="/posts" component={UserPosts} />
+        <Route exact path="/newpost" component={NewPost} />
+        <Route exact path="/edit/:id" component={EditPost} />
         <Route exact path="/dashboard" component={Dashboard} />
       </PrivateRoute>
     </Switch>
