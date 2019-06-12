@@ -9,12 +9,11 @@ _Database_
 _Backend_
 
 - Move passport authorization from config to user model
-- Switch to JWT user authentication (passport-jwt)
 - REST API for posts (create, delete, get_all_for_user, )
-- API to convert markdown into html for react (somehow)
 
 _Frontend_
 
-- Navbar
-- Login/Register page (maybe integrated)
+- Fix async abort on unmounts
+- Make menu buttons only appear for admins/roles etc.
 - User dashboard (Create new post)
+- Error feedback for login/registration and posts

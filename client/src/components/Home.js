@@ -39,7 +39,7 @@ class Home extends Component {
                 <Box
                   round="xsmall"
                   pad="small"
-                  margin="small"
+                  margin={{ vertical: "small", horizontal: "none" }}
                   background="brand"
                   key={post._id}
                 >

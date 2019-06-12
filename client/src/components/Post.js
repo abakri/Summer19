@@ -14,9 +14,6 @@ const Post = props => {
         .then(res => res.json())
         .then(data => {
           setPost(data);
-        })
-        .catch(err => {
-          console.log(err);
         });
     };
 
