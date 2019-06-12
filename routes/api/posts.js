@@ -15,14 +15,25 @@ router.get("/", (req, res) => {
     .then(posts => res.json(posts));
 });
 
+// @route DELETE api/posts/:id
+// @desc delete post
+// @access
+router.delete("/:id", requireAuthentication, requireAdmin, (req, res) => {
+  Post.findByIdAndDelete(req.params.id).then(post =>
+    res.json({ msg: "Post successfully deleted" })
+  );
+});
+
 // @route GET api/posts/user
 // @desc get all posts in most recent order
 // @access public
-router.get("/user", (req, res) => {
+router.get("/user", requireAuthentication, requireAdmin, (req, res) => {
   userId = req.user._id;
-  Post.find({ userId }).then(posts => {
-    return res.json(posts);
-  });
+  Post.find({ userId })
+    .sort({ date: -1 })
+    .then(posts => {
+      return res.json(posts);
+    });
 });
 
 // @route GET api/posts/:id
@@ -43,9 +54,6 @@ router.get("/:id", (req, res) => {
 router.post("/submit", requireAuthentication, requireAdmin, (req, res) => {
   userId = req.user._id;
   const { body, title } = req.body;
-  if (!userId || !body || !title) {
-    return res.status(400).json({ msg: "Missing field" });
-  }
 
   const newPost = new Post({
     userId: userId,
@@ -65,16 +73,33 @@ router.post("/submit", requireAuthentication, requireAdmin, (req, res) => {
 router.post("/update/:id", requireAuthentication, requireAdmin, (req, res) => {
   userId = req.user._id;
   const { body, title } = req.body;
-  if (!userId || !body || !title) {
-    return res.status(400).json({ msg: "Missing field" });
-  }
 
   Post.findById(req.params.id).then(post => {
     // make sure post exists / belongs to user (use 404 bc we don't want them to know post exists if it does)
     if (!post || userId.toString() !== post.userId)
       return res.status(404).json({ msg: "Unable to update resource" });
 
-    post.title = title;
+    post.title = title || "Untitled"; // if title not specified, call it untitled
+    post.body = body;
+    post.save().then(post => {
+      res.json({ msg: "Post successfully saved" });
+    });
+  });
+});
+
+// @route POST api/posts/publish/:id
+// @desc publish a post
+// @access admin
+router.post("/publish/:id", requireAuthentication, requireAdmin, (req, res) => {
+  userId = req.user._id;
+  const { body, title } = req.body;
+
+  Post.findById(req.params.id).then(post => {
+    // make sure post exists / belongs to user (use 404 bc we don't want them to know post exists if it does)
+    if (!post || userId.toString() !== post.userId)
+      return res.status(404).json({ msg: "Unable to update resource" });
+
+    post.title = title || "Untitled"; // if title not specified, call it untitled
     post.body = body;
     post.save().then(post => {
       res.json({ msg: "Post successfully saved" });
