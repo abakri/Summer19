@@ -38,13 +38,7 @@ router.post("/", (req, res) => {
         if (err) throw err;
         newUser.password = hash;
         newUser.save().then(user => {
-          res.json({
-            user: {
-              id: user.id,
-              name: user.name,
-              email: user.email
-            }
-          });
+          res.json(user.responseData());
         });
       });
     });

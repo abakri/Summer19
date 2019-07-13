@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, TextInput, TextArea } from "grommet";
+import { Container, Form, Button } from "react-bootstrap";
+import { withRouter } from "react-router-dom";
 
 const NewPost = props => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [save, setSave] = useState(false);
 
   useEffect(() => {
     const uploadPost = () => {
@@ -26,28 +26,32 @@ const NewPost = props => {
 
     // if this is a new post and the body or title has changed,
     // then upload it and move to edit
-    if (body !== "" || title !== "" || save) uploadPost();
-  }, [title, body, props.history, save]);
+    if (body !== "" || title !== "") uploadPost();
+  }, [title, body, props.history]);
 
   return (
-    <Box
-      animation="fadeIn"
-      align="center"
-      margin={{ horizontal: "xlarge", vertical: "small" }}
-    >
-      <TextInput
-        placeholder="title"
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-      />
-      <TextArea
-        placeholder="enter markdown here!"
-        value={body}
-        onChange={e => setBody(e.target.value)}
-      />
-      <Button label="save" onClick={e => setSave(true)} />
-    </Box>
+    <Container>
+      <Form>
+        <Form.Control
+          size="lg"
+          type="text"
+          placeholder="Untitled"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+        />
+        <Form.Control
+          as="textarea"
+          rows="3"
+          placeholder="enter markdown here!"
+          value={body}
+          onChange={e => setBody(e.target.value)}
+        />
+      </Form>
+      <Button variant="primary" onClick={() => props.history.push("/")}>
+        Cancel
+      </Button>
+    </Container>
   );
 };
 
-export default NewPost;
+export default withRouter(NewPost);

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Previous } from "grommet-icons";
-import { Link } from "react-router-dom";
-import { Button, Box, Heading, Markdown, Text } from "grommet";
-import Loading from "./Loading";
+import { withRouter } from "react-router-dom";
+import { Container, Button } from "react-bootstrap";
 
 const Post = props => {
   const postId = props.match.params.id;
@@ -18,24 +16,27 @@ const Post = props => {
     };
 
     fetchPost();
-  }, [postId]); // depends on postId being loaded first!
+    // eslint-disable-next-line
+  }, []);
 
   if (post)
     return (
-      <Box
-        animation="fadeIn"
-        align="center"
-        margin={{ horizontal: "xlarge", vertical: "small" }}
-      >
-        <Heading level="2">{post.title}</Heading>
-        <Text>by {post.author}</Text>
-        <Markdown>{post.body}</Markdown>
-        <Link style={{ textDecoration: "none", color: "white" }} to="/">
-          <Button icon={<Previous />} label="back" />
-        </Link>
-      </Box>
+      <Container>
+        <h2>{post.title}</h2>
+        <h4>{post.author}</h4>
+        <p>{post.body}</p>
+        <Button
+          onClick={() => {
+            props.history.push("/");
+          }}
+          variant="primary"
+        >
+          back
+        </Button>
+      </Container>
     );
-  else return <Loading />;
+
+  return <></>;
 };
 
-export default Post;
+export default withRouter(Post);

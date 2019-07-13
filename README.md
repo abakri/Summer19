@@ -17,3 +17,5 @@ _Frontend_
 - Make menu buttons only appear for admins/roles etc.
 - User dashboard (Create new post)
 - Error feedback for login/registration and posts
+- Serialize all of the routes and use those statics instead of hard coding
+- Route 404's to 404 page

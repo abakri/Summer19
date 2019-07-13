@@ -1,78 +1,67 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { logout } from "../actions/authActions";
-import { Box, Button, Heading, Menu } from "grommet";
-import { Logout, User, Document } from "grommet-icons";
+import NavMenu from "./NavMenu";
+import {
+  Navbar,
+  FormControl,
+  Form,
+  Nav,
+  Button,
+  Container
+} from "react-bootstrap";
 
-class AppNavbar extends Component {
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-    logout: PropTypes.func.isRequired
+const AppNavbar = props => {
+  const logout = () => {
+    props.logout(props.history);
   };
 
-  logout = () => {
-    this.props.logout(this.props.history);
-  };
-
-  render() {
-    return (
-      <Box
-        tag="header"
-        direction="row"
-        align="center"
-        justify="between"
-        elevation="small"
-        style={{ zIndex: "1" }}
-        pad={{ vertical: "small", horizontal: "xlarge" }}
-      >
-        <Link to="/">
-          <Button>
-            <Heading level="3" margin="none">
-              Indomie Goreng
-            </Heading>
-          </Button>
-        </Link>
-        {this.props.isAuthenticated ? (
-          <Menu
-            icon={<User />}
-            dropAlign={{ right: "right", top: "bottom" }}
-            size="large"
-            items={[
-              {
-                icon: <Document />,
-                label: "new post",
-                onClick: () => {
-                  this.props.history.push("/newpost");
-                }
-              },
-              {
-                label: "my posts",
-                onClick: () => {
-                  this.props.history.push("/posts");
-                }
-              },
-              { icon: <Logout />, label: "logout", onClick: this.logout }
-            ]}
+  return (
+    <Navbar
+      fixed="top"
+      bg="dark"
+      variant="dark"
+      className="sticky-nav"
+      expand="sm"
+    >
+      <Container>
+        <Navbar.Brand as={Link} to="/">
+          Indomie
+        </Navbar.Brand>
+        <Form inline>
+          <FormControl
+            type="text"
+            placeholder="search indomie"
+            className="mr-sm-2"
           />
-        ) : (
-          <div>
-            <Link to="/register">
-              <Button label="register" margin={{ horizontal: "small" }} />
-            </Link>
-            <Link to="/login">
-              <Button label="sign in" margin={{ horizontal: "small" }} />
-            </Link>
-          </div>
-        )}
-      </Box>
-    );
-  }
-}
+          <Button variant="outline-light">Search</Button>
+        </Form>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <Nav>
+            {props.isAuthenticated ? (
+              <NavMenu user={props.user} logout={logout} />
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/register">
+                  Register
+                </Nav.Link>
+                <Nav.Link as={Link} to="/login">
+                  Login
+                </Nav.Link>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+};
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user
 });
 
 export default withRouter(

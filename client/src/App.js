@@ -11,12 +11,11 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import PrivateRoute from "./components/PrivateRoute";
-import Loading from "./components/Loading";
-import Footer from "./components/Footer";
 import Post from "./components/Post";
 import EditPost from "./components/EditPost";
 import NewPost from "./components/NewPost";
 import UserPosts from "./components/UserPosts";
+import NotFound404 from "./components/NotFound404";
 
 const AppUI = props => (
   <div>
@@ -26,14 +25,14 @@ const AppUI = props => (
       <Route path="/posts/:id" component={Post} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/register" component={Register} />
+      <Route exact path="/notfound" component={NotFound404} />
       <PrivateRoute>
+        <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/posts" component={UserPosts} />
         <Route exact path="/newpost" component={NewPost} />
         <Route exact path="/edit/:id" component={EditPost} />
-        <Route exact path="/dashboard" component={Dashboard} />
       </PrivateRoute>
     </Switch>
-    <Footer />
   </div>
 );
 
@@ -44,7 +43,7 @@ class App extends Component {
 
   render() {
     const { isLoading } = this.props;
-    if (isLoading) return <Loading />;
+    if (isLoading) return <></>;
     return <AppUI />;
   }
 }

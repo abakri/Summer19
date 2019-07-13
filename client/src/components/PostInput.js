@@ -1,29 +1,29 @@
 import React from "react";
-import { Box, TextArea, TextInput } from "grommet";
+import { Container, Form } from "react-bootstrap";
 
 const PostInput = props => {
   return (
-    <Box
-      fill={true}
-      height="100vh"
-      gap="medium"
-      border={{ color: "brand", size: "large" }}
-    >
-      <TextInput
-        placeholder="Untitled"
-        value={props.title}
-        onChange={props.setTitle}
-        plain={true}
-      />
-      <TextArea
-        placeholder="enter markdown here"
-        value={props.body}
-        onChange={props.setBody}
-        plain={true}
-        resize={false}
-      />
-    </Box>
+    <Container>
+      <Form>
+        <Form.Control
+          size="lg"
+          type="text"
+          placeholder="Untitled"
+          value={props.title}
+          onChange={props.setTitle}
+        />
+        <Form.Control
+          as="textarea"
+          rows="7"
+          placeholder="enter markdown here!"
+          value={props.body}
+          onChange={props.setBody}
+        />
+      </Form>
+    </Container>
   );
 };
+
+// add proptypes here
 
 export default PostInput;

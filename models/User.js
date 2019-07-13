@@ -25,7 +25,7 @@ const UserSchema = new Schema({
   roles: {
     type: Map,
     of: Boolean,
-    default: { user: true }
+    default: { user: true, admin: false }
   }
 });
 
@@ -33,9 +33,16 @@ UserSchema.methods.addRole = function(role) {
   this.roles.set(role, true);
 };
 
-UserSchema.statics.userRoles = {
-  USER: "user",
-  ADMIN: "admin"
+// so we don't send the hashed password and other stuff with
+// our responses
+UserSchema.methods.responseData = function() {
+  return {
+    id: this.id,
+    email: this.email,
+    first: this.first,
+    last: this.last,
+    roles: this.roles
+  };
 };
 
 module.exports = User = mongoose.model("user", UserSchema);

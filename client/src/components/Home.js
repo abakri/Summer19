@@ -1,65 +1,42 @@
-import React, { Component } from "react";
-import { Box, Heading, InfiniteScroll, Text } from "grommet";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
+import { Container, Card } from "react-bootstrap";
 
-import Loading from "./Loading";
+const Home = props => {
+  const [posts, setPosts] = useState([]);
 
-class Home extends Component {
-  state = {
-    isLoading: true,
-    posts: null
-  };
+  useEffect(() => {
+    const loadPosts = () => {
+      fetch("/api/posts")
+        .then(res => res.json())
+        .then(data => {
+          setPosts(data);
+        });
+    };
 
-  componentDidMount() {
-    this.loadPosts();
-  }
+    loadPosts();
+    // eslint-disable-next-line
+  }, []);
 
-  loadPosts = () => {
-    fetch("/api/posts")
-      .then(res => res.json())
-      .then(data => this.setState({ isLoading: false, posts: data }));
-  };
+  return (
+    <Container>
+      {posts.map(post => {
+        return (
+          <Card
+            onClick={() => props.history.push(`/posts/${post._id}`)}
+            key={post._id}
+            to={`/posts/${post._id}`}
+            className="my-3"
+          >
+            <Card.Body>
+              <Card.Title>{post.title}</Card.Title>
+              <Card.Subtitle>{post.author}</Card.Subtitle>
+            </Card.Body>
+          </Card>
+        );
+      })}
+    </Container>
+  );
+};
 
-  render() {
-    return (
-      <Box
-        animation="fadeIn"
-        align="center"
-        margin={{ horizontal: "xlarge", vertical: "small" }}
-      >
-        <Heading level="2">popular posts</Heading>
-        {this.state.isLoading ? (
-          <Box margin={{ top: "xlarge" }}>
-            <Loading />
-          </Box>
-        ) : (
-          <Box animation={"fadeIn"} fill={true}>
-            <InfiniteScroll items={this.state.posts}>
-              {post => (
-                <Box
-                  round="xsmall"
-                  pad="small"
-                  margin={{ vertical: "small", horizontal: "none" }}
-                  background="brand"
-                  key={post._id}
-                >
-                  <Link
-                    style={{ textDecoration: "none", color: "white" }}
-                    to={`/posts/${post._id}`}
-                  >
-                    <Box>
-                      <Heading level="4">{post.title}</Heading>
-                      <Text>by {post.author}</Text>
-                    </Box>
-                  </Link>
-                </Box>
-              )}
-            </InfiniteScroll>
-          </Box>
-        )}
-      </Box>
-    );
-  }
-}
-
-export default Home;
+export default withRouter(Home);

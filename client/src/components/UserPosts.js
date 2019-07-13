@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, InfiniteScroll, Text, Button } from "grommet";
-import Loading from "../components/Loading";
+import { Container, Card } from "react-bootstrap";
 
 const UserPosts = props => {
   const [isLoading, setLoading] = useState(true);
@@ -15,28 +14,27 @@ const UserPosts = props => {
       });
   }, []);
 
-  if (isLoading) return <Loading />;
-  else if (posts.length === 0) return <div>you have no posts</div>;
-  else
-    return (
-      <Box animation="fadeIn">
-        <InfiniteScroll items={posts}>
-          {post => (
-            <Button key={post._id}>
-              <Box
-                margin="small"
-                onClick={() => {
-                  props.history.push(`/edit/${post._id}`);
-                }}
-              >
-                <h3>{post.title}</h3>
-                <Text>{post.date}</Text>
-              </Box>
-            </Button>
-          )}
-        </InfiniteScroll>
-      </Box>
-    );
+  if (isLoading) return <></>;
+  if (posts.length === 0) return <div>you have no posts</div>;
+  return (
+    <Container>
+      {posts.map(post => {
+        return (
+          <Card
+            onClick={() => props.history.push(`/edit/${post._id}`)}
+            key={post._id}
+            to={`/posts/${post._id}`}
+            className="my-3"
+          >
+            <Card.Body>
+              <Card.Title>{post.title}</Card.Title>
+              <Card.Subtitle>{post.date}</Card.Subtitle>
+            </Card.Body>
+          </Card>
+        );
+      })}
+    </Container>
+  );
 };
 
 export default UserPosts;
