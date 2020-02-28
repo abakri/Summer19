@@ -8,6 +8,7 @@ _Database_
 
 _Backend_
 
+_ Move python compilation onto the server. Take the code and run exec. Should create a temporary folder for the processes to occur, in case files are created. Must be secure- do not allow os commands.
 - Move passport authorization from config to user model
 - REST API for posts (create, delete, get_all_for_user, )
 
